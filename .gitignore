@@ -1,0 +1,28 @@
+# Node.js dependencies
+node_modules/
+
+# PHP dependencies
+vendor/
+
+# Docker volumes
+*.env
+docker-compose.override.yml
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+public/styles.css
+public/styles.css.map
+
+# Other
+*.log
+*.tmp
+*.bak
