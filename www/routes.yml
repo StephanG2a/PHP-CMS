@@ -21,3 +21,7 @@
 /register:
   controller: Security
   action: register
+
+/verify:
+  controller: Security
+  action: verifyEmail

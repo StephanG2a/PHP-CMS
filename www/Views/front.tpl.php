@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ma super page</title>
-    <meta name="description" content="Ceci est ma super page">
-    <link href="/dist/output.css" rel="stylesheet">
+    <title>Upikajob</title>
+    <meta name="description" content="Front Office">
+    <link href="../dist/output.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1 class="">Template de front</h1>
+    <h1>Template de front</h1>
 
     <?php include $this->view; ?>
 

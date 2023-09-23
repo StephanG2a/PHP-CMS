@@ -1,147 +1,130 @@
 <?php
+
 namespace App\Models;
+
 use App\Core\Sql;
 
-class User extends Sql {
-
-    protected Int $id = 0;
-    protected String $firstname;
-    protected String $lastname;
-    protected String $country;
-    protected String $email;
-    protected String $password;
-    protected Int $status = 0;
+class User extends Sql
+{
+    protected int $id = 0;
+    protected string $firstname;
+    protected string $lastname;
+    protected string $email;
+    protected string $password;
+    protected bool $status = false;
     protected $date_inserted;
-    protected $date_updated;
 
-    /**
-     * @return int
-     */
+    public function __construct()
+    {
+        $dateTime = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        parent::__construct();
+        $this->date_inserted = $dateTime->format('Y-m-d H:i');
+    }
+
     public function getId(): int
     {
         return $this->id;
     }
-
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
-    /**
-     * @return String
-     */
     public function getFirstname(): string
     {
         return $this->firstname;
     }
-
-    /**
-     * @param String $firstname
-     */
     public function setFirstname(string $firstname): void
     {
         $this->firstname = ucwords(strtolower(trim($firstname)));
     }
-
-    /**
-     * @return String
-     */
     public function getLastname(): string
     {
         return $this->lastname;
     }
-
-    /**
-     * @param String $lastname
-     */
     public function setLastname(string $lastname): void
     {
         $this->lastname = strtoupper(trim($lastname));
     }
-
-    /**
-     * @return String
-     */
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param String $country
-     */
-    public function setCountry(string $country): void
-    {
-        $this->country = strtoupper(trim($country));
-    }
-
-    /**
-     * @return String
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
-
-    /**
-     * @param String $email
-     */
     public function setEmail(string $email): void
     {
         $this->email = strtolower(trim($email));
     }
-
-    /**
-     * @return String
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
-
-    /**
-     * @param String $password
-     */
     public function setPassword(string $password): void
     {
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
-
-    /**
-     * @return int
-     */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
         return $this->status;
     }
-
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }
-
-    /**
-     * @return mixed
-     */
     public function getDateInserted()
     {
         return $this->date_inserted;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDateUpdated()
+    public function loadById(int $id): void
     {
-        return $this->date_updated;
+        $query = "SELECT * FROM " . $this->table . " WHERE id = :id LIMIT 1";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $id, \PDO::PARAM_INT);
+        $queryPrepared->execute();
+        $result = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $this->id = $result['id'];
+            $this->firstname = $result['firstname'];
+            $this->lastname = $result['lastname'];
+            $this->email = $result['email'];
+            $this->password = $result['password'];
+            $this->status = $result['status'];
+        } else {
+            throw new \Exception("User with ID $id not found.");
+        }
     }
 
+    // public function checkUserCredentials($email, $password)
+    // {
+    //     $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
+    //     $queryPrepared = $this->pdo->prepare($query);
+    //     $queryPrepared->bindParam(':email', $email, \PDO::PARAM_STR);
+    //     $queryPrepared->execute();
+    //     $user = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
 
+    //     if ($user && password_verify($password, $user['password'])) {
+    //         return $user;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    public function checkUserCredentials($email, $password)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':email', $email, \PDO::PARAM_STR);
+        $queryPrepared->execute();
+        $user = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
 
+        if ($user) {
+            $storedHash = trim($user['password']); // Trim the hash
+            if (password_verify($password, $storedHash)) {
+                return $user;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
