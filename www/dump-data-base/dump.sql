@@ -8,7 +8,8 @@ CREATE TABLE "public"."esgi_user" (
     "email" character(255) UNIQUE NOT NULL,
     "password" character(255) NOT NULL,
     "status" boolean DEFAULT false NOT NULL,
-    "date_inserted" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+    "date_inserted" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "role" VARCHAR(20) NOT NULL DEFAULT 'guest'
 ) WITH (oids = false);
 
 CREATE TABLE "public"."esgi_token" (

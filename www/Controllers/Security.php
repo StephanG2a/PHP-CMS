@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+// session_start();
+
 use App\Core\View;
 use App\Forms\AddUser;
 use App\Models\User;
@@ -23,7 +25,7 @@ class Security
 
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
-            var_dump($_POST);
+            var_dump($_POST, 'test');
 
             if (empty($errors)) {
                 $user = User::getInstance();
@@ -32,8 +34,18 @@ class Security
                 if ($authenticatedUser) {
                     if ($authenticatedUser['status']) {
                         // User is authenticated and email is verified, proceed with login
+                        $_SESSION['user_id'] = $authenticatedUser['id'];
                         // Set session or whatever you do to log in
+                        var_dump("Authenticated User Role from DB: ", $authenticatedUser['role']);
+                        $user->setId($authenticatedUser['id']);
+                        $user->setFirstname($authenticatedUser['firstname']);
+                        $user->setLastname($authenticatedUser['lastname']);
+                        $user->setEmail($authenticatedUser['email']);
+                        $user->setStatus($authenticatedUser['status']);
+                        $user->setRole($authenticatedUser['role']);
+                        var_dump("Role set in User object: ", $user->getRole());
                         echo "Succesfully log in";
+                        header('Location: /');
                     } else {
                         // User is authenticated but email is not verified
                         $errors[] = "Please verify your email before logging in.";
@@ -77,7 +89,7 @@ class Security
                 $user->setEmail($_POST['email']);
                 $user->setPassword($_POST['pwd']);
                 $user->setStatus(false); // false because the user needs to verify their email
-
+                $user->setRole('guest'); // Set role to 'guest' by default
                 // Save the user to the database
                 $user->save();
 
@@ -151,6 +163,14 @@ class Security
 
     public function logout(): void
     {
-        echo "Logout";
+        // Unset all session variables
+        $_SESSION = array();
+
+        // Destroy the session
+        session_destroy();
+
+        // Redirect to the homepage or login page
+        header('Location: /login');
+        exit();
     }
 }

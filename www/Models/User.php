@@ -13,6 +13,7 @@ class User extends Sql
     protected string $password;
     protected bool $status = false;
     protected $date_inserted;
+    protected $role;
 
     public function __construct()
     {
@@ -74,6 +75,16 @@ class User extends Sql
         return $this->date_inserted;
     }
 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
     public function loadById(int $id): void
     {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id LIMIT 1";
@@ -89,25 +100,12 @@ class User extends Sql
             $this->email = $result['email'];
             $this->password = $result['password'];
             $this->status = $result['status'];
+            $this->role = $result['role'];
         } else {
             throw new \Exception("User with ID $id not found.");
         }
     }
 
-    // public function checkUserCredentials($email, $password)
-    // {
-    //     $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
-    //     $queryPrepared = $this->pdo->prepare($query);
-    //     $queryPrepared->bindParam(':email', $email, \PDO::PARAM_STR);
-    //     $queryPrepared->execute();
-    //     $user = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
-
-    //     if ($user && password_verify($password, $user['password'])) {
-    //         return $user;
-    //     } else {
-    //         return false;
-    //     }
-    // }
     public function checkUserCredentials($email, $password)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";

@@ -3,6 +3,9 @@
 namespace App;
 //Contrainte : utilisation des Namespace
 
+session_start();
+
+use App\Core\View;
 
 spl_autoload_register(function ($class) {
     //Core/View.php
@@ -46,8 +49,13 @@ if (!file_exists("routes.yml")) {
 $routes = yaml_parse_file("routes.yml");
 
 //Page 404
+// if (empty($routes[$uri])) {
+//     die("Page 404");
+// }
 if (empty($routes[$uri])) {
-    die("Page 404");
+    header('HTTP/1.0 404 Not Found');
+    $view = new View("Error/404", "404");
+    exit();
 }
 
 if (empty($routes[$uri]["controller"]) || empty($routes[$uri]["action"])) {
@@ -74,8 +82,13 @@ if (!class_exists($controller)) {
 $objet = new $controller();
 
 //Est-ce que l'objet contient bien la methode
+// if (!method_exists($objet, $action)) {
+//     die("L'action " . $action . " n'existe pas");
+// }
 if (!method_exists($objet, $action)) {
-    die("L'action " . $action . " n'existe pas");
+    header('HTTP/1.0 404 Not Found');
+    $view = new View("Error/404", "404");
+    exit();
 }
 
 $objet->$action();

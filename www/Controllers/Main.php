@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+// session_start();
+
 use App\Models\User;
 use App\Core\View;
 
@@ -21,18 +23,26 @@ class Main
 
     public function dashboard()
     {
-        // echo "Mon tableau de bord";
-        $view = new View("Main/contact", "back");
+        if (!isset($_SESSION['user_id'])) {
+            // Send a 404 error if the user is not logged in
+            header('HTTP/1.0 404 Not Found');
+            $view = new View("Error/404", "404");
+            exit();
+        }
 
-        $user = User::getInstance(); // Or however you get the logged-in user
+        $user = User::getInstance();
+        $user->loadById($_SESSION['user_id']);
         $role = $user->getRole();
 
-        if ($role === 'admin') {
-            // Redirect to admin dashboard
-        } elseif ($role === 'blogger') {
-            // Redirect to blogger dashboard
-        } else {
-            // Redirect to 404 or some other page
+        if ($role === 'guest' || $role === null) {
+            // Send a 404 error if the user is a guest or role is not set
+            header('HTTP/1.0 404 Not Found');
+            $view = new View("Error/404", "404");
+            exit();
         }
+
+        // Your existing dashboard code here
+        $view = new View("Main/dashboard", "back");
+        $view->assign("role", $role);
     }
 }
