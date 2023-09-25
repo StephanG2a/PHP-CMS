@@ -41,8 +41,15 @@ class Main
             exit();
         }
 
-        // Your existing dashboard code here
+        try {
+            $users = $user->getAllUsers();
+        } catch (Exception $e) {
+            // Handle the error (log it, show an error message, etc.)
+            die("An error occurred: " . $e->getMessage());
+        }
+
         $view = new View("Main/dashboard", "back");
         $view->assign("role", $role);
+        $view->assign("users", $users);
     }
 }

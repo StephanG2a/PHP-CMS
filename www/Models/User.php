@@ -125,4 +125,12 @@ class User extends Sql
             return false;
         }
     }
+
+    public function getAllUsers()
+    {
+        $query = "SELECT * FROM esgi_user"; // Removed email from the SELECT clause
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute();
+        return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
