@@ -133,4 +133,36 @@ class User extends Sql
         $queryPrepared->execute();
         return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function createUser($firstname, $lastname, $email, $password, $role)
+    {
+        $query = "INSERT INTO esgi_user (firstname, lastname, email, password, role) VALUES (:firstname, :lastname, :email, :password, :role)";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':firstname', $firstname);
+        $queryPrepared->bindParam(':lastname', $lastname);
+        $queryPrepared->bindParam(':email', $email);
+        $queryPrepared->bindParam(':password', $password);
+        $queryPrepared->bindParam(':role', $role);
+        return $queryPrepared->execute();
+    }
+
+    public function updateUser($id, $firstname, $lastname, $email, $role)
+    {
+        $query = "UPDATE esgi_user SET firstname = :firstname, lastname = :lastname, email = :email, role = :role WHERE id = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $id);
+        $queryPrepared->bindParam(':firstname', $firstname);
+        $queryPrepared->bindParam(':lastname', $lastname);
+        $queryPrepared->bindParam(':email', $email);
+        $queryPrepared->bindParam(':role', $role);
+        return $queryPrepared->execute();
+    }
+
+    public function deleteUser($id)
+    {
+        $query = "DELETE FROM esgi_user WHERE id = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $id);
+        return $queryPrepared->execute();
+    }
 }
