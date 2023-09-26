@@ -69,7 +69,7 @@ abstract class Sql
         return $result ? (int)$result['user_id'] : null;
     }
 
-    public function save(): void
+    public function save(): bool
     {
         $columns = get_object_vars($this);
         $columnsToDeleted = get_class_vars(get_class());
@@ -96,14 +96,25 @@ abstract class Sql
             }
         }
 
+        // try {
+        //     $queryPrepared->execute();
+        //     if ($this->getId() === 0) {  // If this was an insert operation
+        //         $lastId = $this->pdo->lastInsertId();
+        //         $this->setId((int)$lastId);
+        //     }
+        // } catch (\PDOException $e) {
+        //     die("Database error: " . $e->getMessage());
+        // }
         try {
-            $queryPrepared->execute();
-            if ($this->getId() === 0) {  // If this was an insert operation
+            $success = $queryPrepared->execute();
+            if ($this->getId() === 0) {
                 $lastId = $this->pdo->lastInsertId();
                 $this->setId((int)$lastId);
             }
+            return $success;
         } catch (\PDOException $e) {
             die("Database error: " . $e->getMessage());
+            return false;  // Make sure to return false here
         }
     }
 }

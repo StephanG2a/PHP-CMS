@@ -52,18 +52,59 @@ $routes = yaml_parse_file("routes.yml");
 // if (empty($routes[$uri])) {
 //     die("Page 404");
 // }
-if (empty($routes[$uri])) {
+
+
+// if (empty($routes[$uri])) {
+//     header('HTTP/1.0 404 Not Found');
+//     $view = new View("Error/404", "404");
+//     exit();
+// }
+
+// if (empty($routes[$uri]["controller"]) || empty($routes[$uri]["action"])) {
+//     die("Absence de controller ou d'action dans le ficher de routing pour la route " . $uri);
+// }
+
+// $controller = $routes[$uri]["controller"];
+// $action = $routes[$uri]["action"];
+
+$foundRoute = false;
+foreach ($routes as $route => $routeConfig) {
+    $routeParts = explode('/', trim($route, '/'));
+    $uriParts = explode('/', trim($uri, '/'));
+
+    if (count($routeParts) !== count($uriParts)) {
+        continue;
+    }
+
+    $params = [];
+    $match = true;
+    foreach ($routeParts as $index => $routePart) {
+        if ($routePart === $uriParts[$index]) {
+            continue;
+        }
+
+        if (strpos($routePart, ':') === 0) {
+            $params[substr($routePart, 1)] = $uriParts[$index];
+            continue;
+        }
+
+        $match = false;
+        break;
+    }
+
+    if ($match) {
+        $foundRoute = true;
+        $controller = $routeConfig['controller'];
+        $action = $routeConfig['action'];
+        break;
+    }
+}
+
+if (!$foundRoute) {
     header('HTTP/1.0 404 Not Found');
     $view = new View("Error/404", "404");
     exit();
 }
-
-if (empty($routes[$uri]["controller"]) || empty($routes[$uri]["action"])) {
-    die("Absence de controller ou d'action dans le ficher de routing pour la route " . $uri);
-}
-
-$controller = $routes[$uri]["controller"];
-$action = $routes[$uri]["action"];
 
 //Vérification de l'existance de la classe
 if (!file_exists("Controllers/" . $controller . ".php")) {
@@ -91,4 +132,4 @@ if (!method_exists($objet, $action)) {
     exit();
 }
 
-$objet->$action();
+$objet->$action($params);

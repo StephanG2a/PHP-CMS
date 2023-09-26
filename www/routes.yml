@@ -50,14 +50,14 @@
   controller: Users
   action: store
 
-/dashboard/users/edit/{id}:
+/dashboard/users/edit/:id:
   controller: Users
   action: edit
 
-/dashboard/users/update/{id}:
+/dashboard/users/update/:id:
   controller: Users
   action: update
 
-/dashboard/users/delete/{id}:
+/dashboard/users/delete/:id:
   controller: Users
   action: delete

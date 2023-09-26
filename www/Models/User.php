@@ -163,11 +163,10 @@ class User extends Sql
         return $queryPrepared->execute();
     }
 
-    public function deleteUser($id)
+    public function delete()
     {
-        $query = "DELETE FROM esgi_user WHERE id = :id";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->bindParam(':id', $id);
+        $queryPrepared = $this->pdo->prepare("DELETE FROM " . $this->table . " WHERE id = :id");
+        $queryPrepared->bindParam(':id', $this->id, \PDO::PARAM_INT);
         return $queryPrepared->execute();
     }
 }
