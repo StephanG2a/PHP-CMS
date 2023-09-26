@@ -48,8 +48,45 @@ class Main
             die("An error occurred: " . $e->getMessage());
         }
 
-        $view = new View("Main/dashboard", "back");
+        $activeTab = 'dashboard';
+        $view = new View("Dashboard/dashboard", "back");
         $view->assign("role", $role);
         $view->assign("users", $users);
+        $view->assign("activeTab", $activeTab);
+    }
+
+    public function addUser()
+    {
+        // Your form validation and data collection here
+        $user = User::getInstance();
+        $result = $user->createUser($firstname, $lastname, $email, $password, $role);
+        if ($result) {
+            // Redirect to dashboard or show success message
+        } else {
+            // Show error message
+        }
+    }
+
+    public function editUser($id)
+    {
+        // Your form validation and data collection here
+        $user = User::getInstance();
+        $result = $user->updateUser($id, $firstname, $lastname, $email, $role);
+        if ($result) {
+            // Redirect to dashboard or show success message
+        } else {
+            // Show error message
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::getInstance();
+        $result = $user->deleteUser($id);
+        if ($result) {
+            // Redirect to dashboard or show success message
+        } else {
+            // Show error message
+        }
     }
 }

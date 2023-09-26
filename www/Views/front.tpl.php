@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Upikajob</title>
     <meta name="description" content="Front Office">
-    <link href="../dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" rel="stylesheet">
 </head>
 
 <body>

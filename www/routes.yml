@@ -6,6 +6,22 @@
   controller: Main
   action: dashboard
 
+/dashboard/users:
+  controller: Users
+  action: index
+
+/dashboard/posts:
+  controller: Posts
+  action: index
+
+/dashboard/comments:
+  controller: Comments
+  action: index
+
+/dashboard/categories:
+  controller: Categories
+  action: index
+
 /contact:
   controller: Main
   action: contact
@@ -25,3 +41,23 @@
 /verify:
   controller: Security
   action: verifyEmail
+
+/dashboard/users/create:
+  controller: Users
+  action: create
+
+/dashboard/users/store:
+  controller: Users
+  action: store
+
+/dashboard/users/edit/{id}:
+  controller: Users
+  action: edit
+
+/dashboard/users/update/{id}:
+  controller: Users
+  action: update
+
+/dashboard/users/delete/{id}:
+  controller: Users
+  action: delete

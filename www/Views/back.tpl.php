@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <meta name="description" content="Back Office">
-    <link href="../dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" rel="stylesheet">
     <script type="text/javascript" src="../assets/js/main.js"></script>
 </head>
 
@@ -22,14 +22,14 @@
                                 </div>
                                 <div class="hidden md:block">
                                     <div class="ml-10 flex items-baseline space-x-4">
-                                        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                        <a href="#" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a>
+                                        <!-- Dynamically set the active tab -->
+                                        <a href="/dashboard" class="rounded-md px-3 py-2 text-sm font-medium <?= $activeTab === 'dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>" aria-current="page">Dashboard</a>
                                         <?php if ($role === 'admin') : ?>
-                                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Users</a>
+                                            <a href="/dashboard/users" class="rounded-md px-3 py-2 text-sm font-medium <?= $activeTab === 'users' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Users</a>
                                         <?php endif; ?>
-                                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Posts</a>
-                                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Comments</a>
-                                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Categories</a>
+                                        <a href="/dashboard/posts" class="rounded-md px-3 py-2 text-sm font-medium <?= $activeTab === 'posts' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Posts</a>
+                                        <a href="/dashboard/comments" class="rounded-md px-3 py-2 text-sm font-medium <?= $activeTab === 'comments' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Comments</a>
+                                        <a href="/dashboard/categories" class="rounded-md px-3 py-2 text-sm font-medium <?= $activeTab === 'categories' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Categories</a>
                                     </div>
                                 </div>
                             </div>
@@ -95,13 +95,13 @@
                 <div class="border-b border-gray-700 md:hidden hidden" id="mobile-menu">
                     <div class="space-y-1 px-2 py-3 sm:px-3">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
+                        <a href="/dashboard" class="block rounded-md px-3 py-2 text-base font-medium <?= $activeTab === 'dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>" aria-current="page">Dashboard</a>
                         <?php if ($role === 'admin') : ?>
-                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Users</a>
+                            <a href="/dashboard/users" class="block rounded-md px-3 py-2 text-base font-medium <?= $activeTab === 'users' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Users</a>
                         <?php endif; ?>
-                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Posts</a>
-                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Comments</a>
-                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Categories</a>
+                        <a href="/dashboard/posts" class="block rounded-md px-3 py-2 text-base font-medium <?= $activeTab === 'posts' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Posts</a>
+                        <a href="/dashboard/comments" class="block rounded-md px-3 py-2 text-base font-medium <?= $activeTab === 'comments' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Comments</a>
+                        <a href="/dashboard/categories" class="block rounded-md px-3 py-2 text-base font-medium <?= $activeTab === 'categories' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">Categories</a>
                     </div>
                     <div class="border-t border-gray-700 pb-3 pt-4">
                         <div class="flex items-center px-5">

@@ -136,14 +136,19 @@ class User extends Sql
 
     public function createUser($firstname, $lastname, $email, $password, $role)
     {
-        $query = "INSERT INTO esgi_user (firstname, lastname, email, password, role) VALUES (:firstname, :lastname, :email, :password, :role)";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->bindParam(':firstname', $firstname);
-        $queryPrepared->bindParam(':lastname', $lastname);
-        $queryPrepared->bindParam(':email', $email);
-        $queryPrepared->bindParam(':password', $password);
-        $queryPrepared->bindParam(':role', $role);
-        return $queryPrepared->execute();
+        try {
+            $query = "INSERT INTO esgi_user (firstname, lastname, email, password, role) VALUES (:firstname, :lastname, :email, :password, :role)";
+            $queryPrepared = $this->pdo->prepare($query);
+            $queryPrepared->bindParam(':firstname', $firstname);
+            $queryPrepared->bindParam(':lastname', $lastname);
+            $queryPrepared->bindParam(':email', $email);
+            $queryPrepared->bindParam(':password', $password);
+            $queryPrepared->bindParam(':role', $role);
+            return $queryPrepared->execute();
+        } catch (\PDOException $e) {
+            error_log("SQL Error: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function updateUser($id, $firstname, $lastname, $email, $role)
