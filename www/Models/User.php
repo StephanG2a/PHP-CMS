@@ -115,7 +115,7 @@ class User extends Sql
         $user = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
 
         if ($user) {
-            $storedHash = trim($user['password']); // Trim the hash
+            $storedHash = trim($user['password']);
             if (password_verify($password, $storedHash)) {
                 return $user;
             } else {
@@ -128,7 +128,7 @@ class User extends Sql
 
     public function getAllUsers()
     {
-        $query = "SELECT * FROM esgi_user"; // Removed email from the SELECT clause
+        $query = "SELECT * FROM esgi_user";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute();
         return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);

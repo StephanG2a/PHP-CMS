@@ -5,15 +5,45 @@ namespace App\Controllers;
 // session_start();
 
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Comment;
 use App\Core\View;
 
 class Main
 {
     public function index()
     {
-        $pseudo = "Prof";
-        $view = new View("Main/index", "front");
-        $view->assign("pseudo", $pseudo);
+        $postModel = Post::createInstance();
+        $categoryModel = Category::createInstance();
+
+        $categoryName = $_GET['category'] ?? null;
+        $categories = $categoryModel->getAllCategories();
+
+        if ($categoryName && $categoryName !== 'all') {
+            $posts = $postModel->getPostsByCategoryName($categoryName);
+        } else {
+            $posts = $postModel->getAllPosts();
+        }
+
+        $view = new View("Frontboard/blog", "front");
+        $view->assign("posts", $posts);
+        $view->assign("categories", $categories);
+    }
+
+    public function indexByCategory($params)
+    {
+        $categoryModel = Category::createInstance();
+        $categories = $categoryModel->getAllCategories();
+        $categoryName = strtolower($params['category']);
+
+
+        $postModel = Post::createInstance();
+        $posts = $postModel->getPostsByCategoryName($categoryName);
+
+        $view = new View("Frontboard/blog", "front");
+        $view->assign("posts", $posts);
+        $view->assign("categories", $categories);
     }
 
     public function contact()
@@ -53,40 +83,5 @@ class Main
         $view->assign("role", $role);
         $view->assign("users", $users);
         $view->assign("activeTab", $activeTab);
-    }
-
-    public function addUser()
-    {
-        // Your form validation and data collection here
-        $user = User::getInstance();
-        $result = $user->createUser($firstname, $lastname, $email, $password, $role);
-        if ($result) {
-            // Redirect to dashboard or show success message
-        } else {
-            // Show error message
-        }
-    }
-
-    public function editUser($id)
-    {
-        // Your form validation and data collection here
-        $user = User::getInstance();
-        $result = $user->updateUser($id, $firstname, $lastname, $email, $role);
-        if ($result) {
-            // Redirect to dashboard or show success message
-        } else {
-            // Show error message
-        }
-    }
-
-    public function deleteUser($id)
-    {
-        $user = User::getInstance();
-        $result = $user->deleteUser($id);
-        if ($result) {
-            // Redirect to dashboard or show success message
-        } else {
-            // Show error message
-        }
     }
 }

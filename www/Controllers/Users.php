@@ -204,7 +204,6 @@ class Users
 
         // Perform the update
         $result = $userToUpdate->save();
-        var_dump($result);
 
         if ($result) {
             header("Location: /dashboard/users?success=user_updated");

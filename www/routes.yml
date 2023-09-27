@@ -2,6 +2,22 @@
   controller: Main
   action: index
 
+/blog/:category:
+  controller: Main
+  action: indexByCategory
+
+/post/:id:
+  controller: Posts
+  action: show
+
+/comment:
+  controller: Comments
+  action: store
+
+/updateCommentStatus:
+  controller: Comments
+  action: updateCommentStatus
+
 /dashboard:
   controller: Main
   action: dashboard
@@ -60,4 +76,44 @@
 
 /dashboard/users/delete/:id:
   controller: Users
+  action: delete
+
+/dashboard/categories/create:
+  controller: categories
+  action: create
+
+/dashboard/categories/store:
+  controller: categories
+  action: store
+
+/dashboard/categories/edit/:id:
+  controller: categories
+  action: edit
+
+/dashboard/categories/update/:id:
+  controller: categories
+  action: update
+
+/dashboard/categories/delete/:id:
+  controller: categories
+  action: delete
+
+/dashboard/posts/create:
+  controller: posts
+  action: create
+
+/dashboard/posts/store:
+  controller: posts
+  action: store
+
+/dashboard/posts/edit/:id:
+  controller: posts
+  action: edit
+
+/dashboard/posts/update/:id:
+  controller: posts
+  action: update
+
+/dashboard/posts/delete/:id:
+  controller: posts
   action: delete

@@ -25,7 +25,6 @@ class Security
 
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
-            var_dump($_POST, 'test');
 
             if (empty($errors)) {
                 $user = User::getInstance();
@@ -36,15 +35,12 @@ class Security
                         // User is authenticated and email is verified, proceed with login
                         $_SESSION['user_id'] = $authenticatedUser['id'];
                         // Set session or whatever you do to log in
-                        var_dump("Authenticated User Role from DB: ", $authenticatedUser['role']);
                         $user->setId($authenticatedUser['id']);
                         $user->setFirstname($authenticatedUser['firstname']);
                         $user->setLastname($authenticatedUser['lastname']);
                         $user->setEmail($authenticatedUser['email']);
                         $user->setStatus($authenticatedUser['status']);
                         $user->setRole($authenticatedUser['role']);
-                        var_dump("Role set in User object: ", $user->getRole());
-                        echo "Succesfully log in";
                         header('Location: /');
                     } else {
                         // User is authenticated but email is not verified
@@ -120,7 +116,7 @@ class Security
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Account Verification';
-                    $mail->Body    = "Click the link to verify your account: http://localhost/verify?token=$token";
+                    $mail->Body    = "Click the link to verify your account: http://localhost:8081/verify?token=$token";
 
                     try {
                         $mail->send();

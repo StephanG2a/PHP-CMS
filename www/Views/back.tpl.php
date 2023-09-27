@@ -6,7 +6,7 @@
     <title>Dashboard</title>
     <meta name="description" content="Back Office">
     <link href="/dist/output.css" rel="stylesheet">
-    <script type="text/javascript" src="../assets/js/main.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
 </head>
 
 <body class="h-full">
