@@ -83,41 +83,41 @@
   action: delete
 
 /dashboard/categories/create:
-  controller: categories
+  controller: Categories
   action: create
 
 /dashboard/categories/store:
-  controller: categories
+  controller: Categories
   action: store
 
 /dashboard/categories/edit/:id:
-  controller: categories
+  controller: Categories
   action: edit
 
 /dashboard/categories/update/:id:
-  controller: categories
+  controller: Categories
   action: update
 
 /dashboard/categories/delete/:id:
-  controller: categories
+  controller: Categories
   action: delete
 
 /dashboard/posts/create:
-  controller: posts
+  controller: Posts
   action: create
 
 /dashboard/posts/store:
-  controller: posts
+  controller: Posts
   action: store
 
 /dashboard/posts/edit/:id:
-  controller: posts
+  controller: Posts
   action: edit
 
 /dashboard/posts/update/:id:
-  controller: posts
+  controller: Posts
   action: update
 
 /dashboard/posts/delete/:id:
-  controller: posts
+  controller: Posts
   action: delete
