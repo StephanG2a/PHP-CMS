@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Upikajob</title>
+    <title>CMS</title>
     <meta name="description" content="Front Office">
     <link href="/dist/output.css" rel="stylesheet">
 </head>

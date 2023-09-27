@@ -28,7 +28,6 @@ class Comments
             exit();
         }
 
-        // Fetch all comments from the database
         $commentModel = Comment::createInstance();
         $comments = $commentModel->getAllComments();
 
@@ -36,9 +35,8 @@ class Comments
         $view = new View("Dashboard/comments", "back");
         $view->assign("role", $role);
         $view->assign("activeTab", $activeTab);
-        $view->assign("comments", $comments);  // Pass the comments to the view
+        $view->assign("comments", $comments);
     }
-
 
     public function store()
     {
@@ -55,15 +53,41 @@ class Comments
         header("Location: /post/" . $postId);
     }
 
-    public function updateCommentStatus()
+    public function edit($params)
     {
-        $commentId = $_POST['comment_id'];
-        $isPublished = isset($_POST['is_published']) ? 1 : 0;  // Check if checkbox is checked
+        if (!isset($_SESSION['user_id'])) {
+            header('HTTP/1.0 404 Not Found');
+            $view = new View("Error/404", "404");
+            exit();
+        }
 
+        $user = User::getInstance();
+        $user->loadById($_SESSION['user_id']);
+        $role = $user->getRole();
+
+        if ($role === 'guest' || $role === null) {
+            header('HTTP/1.0 404 Not Found');
+            $view = new View("Error/404", "404");
+            exit();
+        }
+
+        $commentId = $params['id'];
         $commentModel = Comment::createInstance();
-        $commentModel->updateCommentStatus($commentId, $isPublished);
+        $comment = $commentModel->getCommentById($commentId);
+        $activeTab = 'comments';
 
-        // Redirect back to the dashboard or wherever you want
+        $view = new View("Comments/edit", "back");
+        $view->assign("role", $role);
+        $view->assign("activeTab", $activeTab);
+        $view->assign("comment", $comment);
+    }
+
+    public function delete($params)
+    {
+        $commentId = $params['id'];
+        $commentModel = Comment::createInstance();
+        $commentModel->deleteComment($commentId);
+
         header('Location: /dashboard/comments');
     }
 }

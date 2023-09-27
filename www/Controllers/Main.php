@@ -78,10 +78,29 @@ class Main
             die("An error occurred: " . $e->getMessage());
         }
 
+        $users = $user->getAllUsers();
+        $userCount = count($users);
+
+        $commentModel = Comment::createInstance();
+        $comments = $commentModel->getAllComments();
+        $commentCount = count($comments);
+
+        $postModel = Post::createInstance();
+        $posts = $postModel->getAllPosts();
+        $postCount = count($posts);
+
+        $categoryModel = Category::createInstance();
+        $categories = $categoryModel->getAllCategories();
+        $categoryCount = count($categories);
+
         $activeTab = 'dashboard';
         $view = new View("Dashboard/dashboard", "back");
         $view->assign("role", $role);
         $view->assign("users", $users);
         $view->assign("activeTab", $activeTab);
+        $view->assign("userCount", $userCount);
+        $view->assign("commentCount", $commentCount);
+        $view->assign("postCount", $postCount);
+        $view->assign("categoryCount", $categoryCount);
     }
 }

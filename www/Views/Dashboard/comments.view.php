@@ -10,7 +10,6 @@
                             <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Comment</th>
                             <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Post</th>
                             <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">User</th>
-                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                             <th class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                                 <span class="sr-only">Actions</span>
                             </th>
@@ -23,15 +22,10 @@
                                 <td class="whitespace-nowrap px-3 py-5 text-sm"><?= $comment['post_title'] ?></td>
                                 <td class="whitespace-nowrap px-3 py-5 text-sm"><?= $comment['user_name'] ?></td>
                                 <td class="whitespace-nowrap px-3 py-5 text-sm">
-                                    <!-- In your dashboard view -->
-                                    <form action="/updateCommentStatus" method="post">
-                                        <input type="checkbox" name="is_published" value="1" <?= $comment['is_published'] ? 'checked' : '' ?>>
-                                        <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
-                                        <button type="submit">Update</button>
-                                    </form>
                                 </td>
                                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                    <a href="/dashboard/comments/delete/<?= $comment['id'] ?>" class="text-red-600 hover:text-red-900">Delete</a>
+                                    <a href="/dashboard/comments/edit/<?= $comment['id'] ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                    <a href="/dashboard/comments/delete/<?= $comment['id'] ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

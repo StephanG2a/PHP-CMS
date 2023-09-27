@@ -116,7 +116,7 @@ class Security
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Account Verification';
-                    $mail->Body    = "Click the link to verify your account: http://localhost:8081/verify?token=$token";
+                    $mail->Body    = "Click the link to verify your account: http://stephan.stephancms:8081/verify?token=$token";
 
                     try {
                         $mail->send();

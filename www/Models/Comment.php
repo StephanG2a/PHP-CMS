@@ -78,11 +78,9 @@ class Comment extends Sql
         return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-
-
     public function createComment($userId, $postId, $comment)
     {
-        $query = "INSERT INTO esgi_comments (user_id, post_id, content) VALUES (:user_id, :post_id, :comment)";
+        $query = "INSERT INTO esgi_comments (user_id, post_id, content, is_published) VALUES (:user_id, :post_id, :comment, true)";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->bindParam(':user_id', $userId, \PDO::PARAM_INT);
         $queryPrepared->bindParam(':post_id', $postId, \PDO::PARAM_INT);
@@ -101,17 +99,35 @@ class Comment extends Sql
 
     public function getCommentsByPostId($postId)
     {
-        $query = "SELECT * FROM esgi_comments WHERE post_id = :postId AND is_published = true";
+        $query = "SELECT c.*, CONCAT(u.firstname, ' ', u.lastname) as user_name 
+              FROM esgi_comments c 
+              INNER JOIN esgi_user u ON c.user_id = u.id 
+              WHERE c.post_id = :postId AND c.is_published = true";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->bindParam(':postId', $postId, \PDO::PARAM_INT);
         $queryPrepared->execute();
         return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function delete()
+
+    public function getCommentById($commentId)
     {
-        // Similar to delete in User.php
+        $query = "SELECT * FROM esgi_comments WHERE id = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $commentId, \PDO::PARAM_INT);
+        $queryPrepared->execute();
+        return $queryPrepared->fetch(\PDO::FETCH_ASSOC);
     }
+
+
+    public function deleteComment($commentId)
+    {
+        $query = "DELETE FROM esgi_comments WHERE id = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $commentId, \PDO::PARAM_INT);
+        $queryPrepared->execute();
+    }
+
 
     public static function createInstance()
     {

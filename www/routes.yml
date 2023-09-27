@@ -14,9 +14,13 @@
   controller: Comments
   action: store
 
-/updateCommentStatus:
+/dashboard/comments/edit/:id:
   controller: Comments
-  action: updateCommentStatus
+  action: edit
+
+/dashboard/comments/delete/:id:
+  controller: Comments
+  action: delete
 
 /dashboard:
   controller: Main
