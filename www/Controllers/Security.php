@@ -72,17 +72,18 @@ class Security
                 // Get the User singleton instance
                 $user = User::getInstance();
 
+                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 // Check for duplicate email
-                $existingUser = $user->checkDuplicateEmail($_POST['email']);
+                $existingUser = $user->checkDuplicateEmail($email);
                 if ($existingUser) {
                     // Handle error properly
                     die("This email is already registered. Please use a different email.");
                 }
 
                 // Set user properties
-                $user->setFirstname($_POST['firstname']);
-                $user->setLastname($_POST['lastname']);
-                $user->setEmail($_POST['email']);
+                $user->setFirstname(filter_var($_POST['firstname'], FILTER_SANITIZE_STRING));
+                $user->setLastname(filter_var($_POST['lastname'], FILTER_SANITIZE_STRING));
+                $user->setEmail($email);
                 $user->setPassword($_POST['pwd']);
                 $user->setStatus(false); // false because the user needs to verify their email
                 $user->setRole('guest'); // Set role to 'guest' by default
