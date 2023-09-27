@@ -94,7 +94,7 @@ class Comment extends Sql
     public function createComment($userId, $postId, $comment)
     {
         try {
-            $query = "INSERT INTO comments (user_id, post_id, comment, is_published) VALUES (:user_id, :post_id, :comment, :is_published)";
+            $query = "INSERT INTO esgi_comments (user_id, post_id, content, is_published) VALUES (:user_id, :post_id, :comment, :is_published)";
             $queryPrepared = $this->pdo->prepare($query);
             $queryPrepared->bindParam(':user_id', $userId);
             $queryPrepared->bindParam(':post_id', $postId);
@@ -107,6 +107,7 @@ class Comment extends Sql
             return false;
         }
     }
+
 
 
     public function editComment($commentId, $newContent)

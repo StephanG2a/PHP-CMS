@@ -42,6 +42,8 @@ class Main
         $categories = $categoryModel->getAllCategories();
         $categoryName = strtolower(filter_var($params['category'], FILTER_SANITIZE_STRING));
 
+        $menuModel = Menu::createInstance();
+        $menus = $menuModel->getAllMenus();
 
         $postModel = Post::createInstance();
         $posts = $postModel->getPostsByCategoryName($categoryName);
@@ -49,6 +51,7 @@ class Main
         $view = new View("Frontboard/blog", "front");
         $view->assign("posts", $posts);
         $view->assign("categories", $categories);
+        $view->assign("menus", $menus);
     }
 
     public function contact()
