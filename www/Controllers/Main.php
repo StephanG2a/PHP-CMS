@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Menu;
 use App\Core\View;
 
 class Main
@@ -26,9 +27,13 @@ class Main
             $posts = $postModel->getAllPosts();
         }
 
+        $menuModel = Menu::createInstance();
+        $menus = $menuModel->getAllMenus();
+
         $view = new View("Frontboard/blog", "front");
         $view->assign("posts", $posts);
         $view->assign("categories", $categories);
+        $view->assign("menus", $menus);
     }
 
     public function indexByCategory($params)
@@ -81,6 +86,9 @@ class Main
         $users = $user->getAllUsers();
         $userCount = count($users);
 
+        $menuModel = Menu::createInstance();
+        $menuCount = $menuModel->getMenuCount();
+
         $commentModel = Comment::createInstance();
         $comments = $commentModel->getAllComments();
         $commentCount = count($comments);
@@ -102,5 +110,6 @@ class Main
         $view->assign("commentCount", $commentCount);
         $view->assign("postCount", $postCount);
         $view->assign("categoryCount", $categoryCount);
+        $view->assign("menuCount", $menuCount);
     }
 }

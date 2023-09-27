@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS "esgi_token";
 DROP TABLE IF EXISTS "esgi_comments";
 DROP TABLE IF EXISTS "esgi_posts";
 DROP TABLE IF EXISTS "esgi_categories";
+DROP TABLE IF EXISTS "esgi_menus";
 
 CREATE TABLE "public"."esgi_user" (
     "id" SERIAL PRIMARY KEY,
@@ -53,4 +54,11 @@ CREATE TABLE "public"."esgi_comments" (
     "is_published" BOOLEAN DEFAULT false,
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) WITH (oids = false);
+
+CREATE TABLE "public"."esgi_menus" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255) NOT NULL,
+    "url" VARCHAR(255) NOT NULL,
+    "order" INT
 ) WITH (oids = false);

@@ -2,6 +2,14 @@
   controller: Main
   action: index
 
+/profile/edit:
+  controller: Users
+  action: manage
+
+/profile/update:
+  controller: Users
+  action: updateProfile
+
 /blog/:category:
   controller: Main
   action: indexByCategory
@@ -124,4 +132,28 @@
 
 /dashboard/posts/delete/:id:
   controller: Posts
+  action: delete
+
+/dashboard/menus:
+  controller: Menus
+  action: index
+
+/dashboard/menus/create:
+  controller: Menus
+  action: create
+
+/dashboard/menus/store:
+  controller: Menus
+  action: store
+
+/dashboard/menus/edit/:id:
+  controller: Menus
+  action: edit
+
+/dashboard/menus/update/:id:
+  controller: Menus
+  action: update
+
+/dashboard/menus/delete/:id:
+  controller: Menus
   action: delete

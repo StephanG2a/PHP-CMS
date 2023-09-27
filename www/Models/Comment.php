@@ -93,13 +93,21 @@ class Comment extends Sql
 
     public function createComment($userId, $postId, $comment)
     {
-        $query = "INSERT INTO esgi_comments (user_id, post_id, content, is_published) VALUES (:user_id, :post_id, :comment, true)";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->bindParam(':user_id', $userId, \PDO::PARAM_INT);
-        $queryPrepared->bindParam(':post_id', $postId, \PDO::PARAM_INT);
-        $queryPrepared->bindParam(':comment', $comment, \PDO::PARAM_STR);
-        $queryPrepared->execute();
+        try {
+            $query = "INSERT INTO comments (user_id, post_id, comment, is_published) VALUES (:user_id, :post_id, :comment, :is_published)";
+            $queryPrepared = $this->pdo->prepare($query);
+            $queryPrepared->bindParam(':user_id', $userId);
+            $queryPrepared->bindParam(':post_id', $postId);
+            $queryPrepared->bindParam(':comment', $comment);
+            $is_published = false;  // Comment will not be published immediately
+            $queryPrepared->bindParam(':is_published', $is_published, \PDO::PARAM_BOOL);
+            return $queryPrepared->execute();
+        } catch (\PDOException $e) {
+            error_log("SQL Error: " . $e->getMessage());
+            return false;
+        }
     }
+
 
     public function editComment($commentId, $newContent)
     {
@@ -130,7 +138,6 @@ class Comment extends Sql
         $queryPrepared->execute();
         return $queryPrepared->fetchAll(\PDO::FETCH_ASSOC);
     }
-
 
     public function getCommentById($commentId)
     {

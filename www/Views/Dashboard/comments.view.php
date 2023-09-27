@@ -21,8 +21,6 @@
                                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm"><?= $comment['content'] ?></td>
                                 <td class="whitespace-nowrap px-3 py-5 text-sm"><?= $comment['post_title'] ?></td>
                                 <td class="whitespace-nowrap px-3 py-5 text-sm"><?= $comment['user_name'] ?></td>
-                                <td class="whitespace-nowrap px-3 py-5 text-sm">
-                                </td>
                                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                     <a href="/dashboard/comments/edit/<?= $comment['id'] ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
                                     <a href="/dashboard/comments/delete/<?= $comment['id'] ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</a>

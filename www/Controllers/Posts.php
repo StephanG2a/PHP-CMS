@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Menu;
 use App\Core\View;
 
 class Posts
@@ -50,13 +51,16 @@ class Posts
         $postId = $params['id'];
         $postModel = Post::createInstance();
         $commentModel = Comment::createInstance();
+        $menuModel = Menu::createInstance();
 
         $post = $postModel->getPostById($postId);
         $comments = $commentModel->getCommentsByPostId($postId);
+        $menus = $menuModel->getAllMenus();
 
         $view = new View("Frontboard/single", "front");
         $view->assign("post", $post);
         $view->assign("comments", $comments);
+        $view->assign("menus", $menus);
     }
 
     public function create()

@@ -5,6 +5,7 @@ namespace App\Controllers;
 // session_start();
 
 use App\Models\User;
+use App\Models\Menu;
 use App\Core\View;
 
 class Users
@@ -134,7 +135,6 @@ class Users
         exit();
     }
 
-
     public function edit($params)
     {
         $id = $params['id'];
@@ -253,6 +253,61 @@ class Users
         } else {
             header("Location: /dashboard/users?error=user_not_deleted");
         }
+        exit();
+    }
+
+    public function manage()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('HTTP/1.0 404 Not Found');
+            $view = new View("Error/404", "404");
+            exit();
+        }
+
+        $user = User::getInstance();
+        $user->loadById($_SESSION['user_id']);
+
+        $menuModel = Menu::createInstance();
+        $menus = $menuModel->getAllMenus();
+
+        $view = new View("Frontboard/edit", "front");
+        $view->assign("user", $user);
+        $view->assign("menus", $menus);
+    }
+
+    public function updateProfile()
+    {
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header('HTTP/1.0 403 Forbidden');
+            exit();
+        }
+
+        // Get user input
+        $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
+        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING); // You may want to hash this before storing
+
+        // Load user from database
+        $user = User::getInstance();
+        $user->loadById($_SESSION['user_id']);
+
+        // Update user properties
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setEmail($email);
+        $user->setPassword(password_hash($password, PASSWORD_DEFAULT)); // Hash the password before storing
+
+        // Save updated user back to database
+        if ($user->update()) {
+            // Redirect to profile page with success message
+            header('Location: /?update=success');
+        } else {
+            // Redirect to profile page with error message
+            header('Location: /?update=error');
+        }
+
         exit();
     }
 }

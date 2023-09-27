@@ -151,6 +151,18 @@ class User extends Sql
         }
     }
 
+    public function update()
+    {
+        $sql = "UPDATE esgi_user SET firstname = :firstname, lastname = :lastname, email = :email, password = :password WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':firstname', $this->firstname);
+        $stmt->bindParam(':lastname', $this->lastname);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':id', $this->id);
+        return $stmt->execute();
+    }
+
     public function updateUser($id, $firstname, $lastname, $email, $role)
     {
         $query = "UPDATE esgi_user SET firstname = :firstname, lastname = :lastname, email = :email, role = :role WHERE id = :id";

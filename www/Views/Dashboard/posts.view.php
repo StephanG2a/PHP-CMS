@@ -18,6 +18,7 @@
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Content</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">View Post</th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                                 <span class="sr-only">Edit</span>
                             </th>
@@ -45,6 +46,9 @@
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                     <?= $post['name'] ?>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                    <a href="/post/<?= $post['id'] ?>" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View post</a>
                                 </td>
                                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                     <a href="/dashboard/posts/edit/<?= $post['id'] ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit<span class="sr-only">, <?= $post['name'] ?></span></a>
