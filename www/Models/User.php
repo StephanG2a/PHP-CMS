@@ -175,6 +175,15 @@ class User extends Sql
         return $queryPrepared->execute();
     }
 
+    public function deleteTokens()
+    {
+        $query = "DELETE FROM esgi_token WHERE user_id = :user_id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':user_id', $this->id, \PDO::PARAM_INT);
+        $queryPrepared->execute();
+    }
+
+
     public function delete()
     {
         $queryPrepared = $this->pdo->prepare("DELETE FROM " . $this->table . " WHERE id = :id");

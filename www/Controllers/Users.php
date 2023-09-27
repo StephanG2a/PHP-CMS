@@ -224,11 +224,9 @@ class Users
         exit();
     }
 
-
     public function delete($params)
     {
-        $id = $params['id'];
-        // Check if the user is logged in and has the role of 'admin'
+        $userId = $params['id'];
         if (!isset($_SESSION['user_id'])) {
             header("Location: /login");
             exit();
@@ -243,17 +241,16 @@ class Users
             exit();
         }
 
-        // Perform the deletion
-        $userToDelete = new User();
-        $userToDelete->loadById($id);
-        $result = $userToDelete->delete();
+        $user = User::getInstance();
+        $user->loadById($userId);
 
-        if ($result) {
-            header("Location: /dashboard/users?success=user_deleted");
-        } else {
-            header("Location: /dashboard/users?error=user_not_deleted");
-        }
-        exit();
+        // Delete tokens first
+        $user->deleteTokens();
+
+        // Now delete the user
+        $user->delete();
+
+        header('Location: /dashboard/users');
     }
 
     public function manage()
