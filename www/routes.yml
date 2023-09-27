@@ -18,6 +18,10 @@
   controller: Comments
   action: edit
 
+/dashboard/comments/update/:id:
+  controller: Comments
+  action: update
+
 /dashboard/comments/delete/:id:
   controller: Comments
   action: delete

@@ -107,9 +107,9 @@ class Posts
         }
 
         // Validate and sanitize input
-        $title = $_POST['title'];  // You'd actually validate and sanitize this
-        $content = $_POST['content'];  // You'd actually validate and sanitize this
-        $category_id = $_POST['category_id'];  // You'd actually validate and sanitize this
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
+        $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_NUMBER_INT);
 
         // Create new Post
         $post = Post::createInstance();
@@ -182,9 +182,9 @@ class Posts
         }
 
         // Fetch the updated details from the form
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $category_id = $_POST['category_id'];
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
+        $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_NUMBER_INT);
 
         // Update the post in the database
         $post = Post::createInstance();

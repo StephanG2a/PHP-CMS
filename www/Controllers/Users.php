@@ -100,8 +100,14 @@ class Users
             exit();
         }
 
+        $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
+        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+
         // Check for duplicate email
-        $existingUser = $user->checkDuplicateEmail($_POST['email']);
+        $existingUser = $user->checkDuplicateEmail($email);
 
         if ($existingUser) {
             header("Location: /dashboard/users/create?error=email_exists");
@@ -111,12 +117,12 @@ class Users
         // Set user properties and save
         $newUser = new User();
         $newUser->setId(0);  // Explicitly set ID to zero
-        $newUser->setFirstname($_POST['firstname']);
-        $newUser->setLastname($_POST['lastname']);
-        $newUser->setEmail($_POST['email']);
-        $newUser->setPassword($_POST['password']);  // This should hash the password
+        $newUser->setFirstname($firstname);
+        $newUser->setLastname($lastname);
+        $newUser->setEmail($email);
+        $newUser->setPassword($password);  // This should hash the password
         $newUser->setStatus(true);
-        $newUser->setRole($_POST['role']);
+        $newUser->setRole($role);
 
         $result = $newUser->save();
 
@@ -192,15 +198,20 @@ class Users
             exit();
         }
 
+        $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
+        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+
         // Load the user to be updated
         $userToUpdate = new User();
         $userToUpdate->loadById($id);
 
         // Set new properties
-        $userToUpdate->setFirstname($_POST['firstname']);
-        $userToUpdate->setLastname($_POST['lastname']);
-        $userToUpdate->setEmail($_POST['email']);
-        $userToUpdate->setRole($_POST['role']);
+        $userToUpdate->setFirstname($firstname);
+        $userToUpdate->setLastname($lastname);
+        $userToUpdate->setEmail($email);
+        $userToUpdate->setRole($role);
 
         // Perform the update
         $result = $userToUpdate->save();

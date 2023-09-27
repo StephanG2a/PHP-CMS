@@ -86,7 +86,7 @@ class Categories
         $view->assign("activeTab", $activeTab);
 
         // Validate and sanitize input
-        $name = $_POST['name']; // You'd actually validate and sanitize this
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
 
         // Create new Category
         $category = Category::createInstance();
@@ -99,7 +99,6 @@ class Categories
             header("Location: /dashboard/categories?error=category_not_created");
         }
     }
-
 
     public function edit($params)
     {
@@ -151,7 +150,7 @@ class Categories
             exit();
         }
 
-        $name = $_POST['name'];
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $categoryToUpdate = Category::createInstance();
         $categoryToUpdate->loadById($id);
         $categoryToUpdate->setName($name);

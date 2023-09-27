@@ -17,7 +17,7 @@ class Main
         $postModel = Post::createInstance();
         $categoryModel = Category::createInstance();
 
-        $categoryName = $_GET['category'] ?? null;
+        $categoryName = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_STRING) ?? null;
         $categories = $categoryModel->getAllCategories();
 
         if ($categoryName && $categoryName !== 'all') {
@@ -35,7 +35,7 @@ class Main
     {
         $categoryModel = Category::createInstance();
         $categories = $categoryModel->getAllCategories();
-        $categoryName = strtolower($params['category']);
+        $categoryName = strtolower(filter_var($params['category'], FILTER_SANITIZE_STRING));
 
 
         $postModel = Post::createInstance();

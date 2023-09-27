@@ -64,7 +64,20 @@ class Comment extends Sql
 
     public function loadById(int $id): void
     {
-        // Similar to User.php
+        $query = "SELECT * FROM esgi_comments WHERE id = :id LIMIT 1";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':id', $id, \PDO::PARAM_INT);
+        $queryPrepared->execute();
+        $result = $queryPrepared->fetch(\PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $this->id = $result['id'];
+            $this->content = $result['content'];
+            $this->post_id = $result['post_id'];
+            $this->is_published = $result['is_published'];
+        } else {
+            throw new \Exception("Comment with ID $id not found.");
+        }
     }
 
     public function getAllComments()
@@ -88,13 +101,22 @@ class Comment extends Sql
         $queryPrepared->execute();
     }
 
+    public function editComment($commentId, $newContent)
+    {
+        $query = "UPDATE esgi_comments SET content = :content WHERE id = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->bindParam(':content', $newContent, \PDO::PARAM_STR);
+        $queryPrepared->bindParam(':id', $commentId, \PDO::PARAM_INT);
+        return $queryPrepared->execute();
+    }
+
     public function updateCommentStatus($commentId, $isPublished)
     {
         $query = "UPDATE esgi_comments SET is_published = :is_published WHERE id = :id";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->bindParam(':is_published', $isPublished, \PDO::PARAM_BOOL);
         $queryPrepared->bindParam(':id', $commentId, \PDO::PARAM_INT);
-        $queryPrepared->execute();
+        return $queryPrepared->execute();
     }
 
     public function getCommentsByPostId($postId)
